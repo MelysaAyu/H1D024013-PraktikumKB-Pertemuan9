@@ -1,139 +1,126 @@
-# 🧬 Praktikum KB – Pertemuan 9: Algoritma Genetika untuk Knapsack Problem
+===============================================================================
+Praktikum KB – Pertemuan 9: Algoritma Genetika untuk Knapsack Problem
+===============================================================================
 
-**NIM:** [isi NIM Anda]  
-**Topik:** Algoritma Genetika (Genetic Algorithm)  
-**Kasus:** Knapsack Problem (0/1)
+NIM   : [isi NIM kamu]
+Kasus : Knapsack Problem (0/1)
+Metode: Algoritma Genetika
 
----
+===============================================================================
+1. TENTANG MODUL
+===============================================================================
+Modul ini membahas Algoritma Genetika (AG) untuk optimasi.
+Tujuan: memahami AG dan menerapkannya pada Knapsack Problem.
 
-## 📖 Tentang Modul
+===============================================================================
+2. TEORI SINGKAT
+===============================================================================
+Algoritma Genetika dikembangkan oleh John Holland (1960-an). Langkah-langkah:
 
-Modul praktikum ini membahas **Algoritma Genetika** sebagai salah satu metode optimasi berbasis populasi yang terinspirasi dari teori evolusi Darwin. Tujuan praktikum:
+  1. Inisialisasi      -> Populasi awal acak (kromosom biner 0/1)
+  2. Evaluasi Fitness  -> Hitung total nilai barang, penalti jika melebihi kapasitas
+  3. Seleksi           -> Pilih orang tua (Roulette Wheel / Tournament)
+  4. Crossover         -> Gabung dua orang tua -> anak
+  5. Mutasi            -> Ubah sedikit gen
+  6. Generasi baru     -> Ulangi langkah 2-5 sampai konvergen
 
-- Memahami dasar-dasar dan cara kerja Algoritma Genetika.
-- Menerapkan Algoritma Genetika pada kasus nyata (Knapsack Problem).
-- Terampil mengimplementasikan dalam bahasa Python.
+Knapsack Problem:
+  Pilih barang dengan total nilai maksimal, total bobot <= kapasitas tas.
+  Kromosom: [1,0,1,...] (1 = barang dipilih).
 
----
+===============================================================================
+3. STRUKTUR FILE PROYEK
+===============================================================================
+  InisiasiPopulasi.py   -> Membangkitkan populasi awal
+  EvaluasiFitness.py    -> Fungsi hitung fitness (dengan penalti)
+  selection.py          -> Seleksi parent (Roulette & Tournament)
+  crossover.py          -> Crossover (One-Point, Two-Point, Uniform)
+  mutation.py           -> Mutasi (Swap, Inversion, Uniform)
+  main.py               -> Program utama (GA loop + plotting)
+  image.png             -> Screenshot grafik hasil running
+  README.md             -> File ini
 
-## 🧠 Teori Singkat
+===============================================================================
+4. CARA MENJALANKAN
+===============================================================================
+Prasyarat:
+  - Python 3.7+
+  - Library: matplotlib, numpy
 
-### Apa itu Algoritma Genetika?
-Algoritma Genetika (AG) dikembangkan oleh **John Holland** pada 1960-an. AG meniru proses seleksi alam, di mana individu terbaik akan bertahan dan menghasilkan keturunan yang lebih baik.
+Instal library:
+  pip install matplotlib numpy
 
-### Langkah-langkah AG
-1. **Inisialisasi** – Membangkitkan populasi awal secara acak (kromosom biner).
-2. **Evaluasi Fitness** – Menghitung nilai solusi (fitness) setiap individu.
-3. **Seleksi** – Memilih orang tua berdasarkan fitness (Roulette Wheel / Tournament).
-4. **Crossover** – Menggabungkan dua orang tua untuk menghasilkan anak.
-5. **Mutasi** – Mengubah sedikit gen untuk menjaga keragaman.
-6. **Generasi baru** – Mengulang langkah 2–5 hingga konvergen.
+Eksekusi:
+  1. Letakkan semua file .py dalam satu folder
+  2. Buka terminal di folder tersebut
+  3. Jalankan:
+       python main.py
 
-### Knapsack Problem
-Masalah memilih barang dengan total nilai maksimum tetapi total bobot tidak melebihi kapasitas tas. Representasi kromosom: array biner (1 = barang dipilih, 0 = tidak dipilih).
+===============================================================================
+5. PARAMETER YANG DIGUNAKAN (dalam main.py)
+===============================================================================
+  jumlah_generasi   = 50   (jumlah iterasi evolusi)
+  jumlah_populasi   = 20   (jumlah individu per generasi)
+  prob_crossover    = 0.5  (peluang crossover)
+  prob_mutasi       = 0.1  (peluang mutasi per gen)
+  kapasitas_tas     = 50   (maksimal bobot tas)
 
----
+===============================================================================
+6. DATA BARANG (9 BARANG)
+===============================================================================
+  Barang1 : nilai 60, bobot 10
+  Barang2 : nilai 100, bobot 20
+  Barang3 : nilai 120, bobot 30
+  Barang4 : nilai 90, bobot 25
+  Barang5 : nilai 69, bobot 11
+  Barang6 : nilai 70, bobot 9
+  Barang7 : nilai 80, bobot 15
+  Barang8 : nilai 90, bobot 10
+  Barang9 : nilai 25, bobot 3
 
-## 📁 Struktur File Proyek
-📂 folder-proyek/
-│
-├── InisiasiPopulasi.py # Membangkitkan populasi awal
-├── EvaluasiFitness.py # Fungsi hitung fitness dengan penalti
-├── selection.py # Seleksi parent (Roulette & Tournament)
-├── crossover.py # Crossover (One-Point, Two-Point, Uniform)
-├── mutation.py # Mutasi (Swap, Inversion, Uniform)
-├── main.py # Program utama (GA loop + plotting)
-├── image.png # Screenshot grafik hasil running
-└── README.md # Penjelasan 
+===============================================================================
+7. HASIL RUNNING
+===============================================================================
+a. Grafik Perkembangan Fitness
 
----
+  [Gambar: image.png]
 
-## 🚀 Cara Menjalankan
+  Penjelasan Grafik:
+    - Sumbu X = Generasi (1-50)
+    - Sumbu Y = Nilai Fitness (total nilai barang terpilih)
+    - Garis biru   = Fitness tertinggi
+    - Garis kuning = Fitness terendah
+    - Garis merah  = Rata-rata fitness
+    - Titik abu-abu = Semua individu (semakin gelap semakin banyak)
 
-### Prasyarat
-- Python 3.7+
-- Library: `matplotlib`, `numpy`
+  Interpretasi:
+    - Awal generasi: fitness rendah dan tersebar (eksplorasi)
+    - Tengah generasi: fitness naik drastis
+    - Akhir generasi: garis mendatar (konvergen ke solusi optimal)
 
-Instal library jika belum:
-```bash
-pip install matplotlib numpy
+b. Output Teks (Contoh)
 
-Eksekusi
-Pastikan semua file .py berada dalam satu folder.
+  Setelah grafik ditutup, terminal menampilkan:
 
-Buka terminal/command prompt di folder tersebut.
+    Nilai Fitness Terbaik: 329
+    Total Bobot: 50
+    Barang Terpilih:
+    - Barang2
+    - Barang5
+    - Barang6
+    - Barang8
 
-Jalankan:
+  Penjelasan:
+    Fitness 329 = total nilai barang terpilih.
+    Total bobot = 20+11+9+10 = 50 (pas dengan kapasitas).
 
-bash
-python main.py
+===============================================================================
+8. CATATAN
+===============================================================================
+- Hasil setiap run bisa berbeda karena sifat random GA.
+- Untuk hasil konsisten, tambah random.seed(42) di awal main.py.
+- Jika konvergensi belum tercapai, perbanyak jumlah_generasi.
 
-Parameter yang Digunakan (dalam main.py)
-Parameter	Nilai	Keterangan
-jumlah_generasi	50	Jumlah iterasi evolusi
-jumlah_populasi	20	Jumlah individu per generasi
-prob_crossover	0.5	Peluang terjadi crossover
-prob_mutasi	0.1	Peluang mutasi per gen
-kapasitas_tas	50	Maksimal bobot tas (knapsack)
-📦 Data Barang (9 Barang)
-Barang	Nilai	Bobot
-Barang1	60	10
-Barang2	100	20
-Barang3	120	30
-Barang4	90	25
-Barang5	69	11
-Barang6	70	9
-Barang7	80	15
-Barang8	90	10
-Barang9	25	3
-📊 Hasil Running
-1. Grafik Perkembangan Fitness
-https://grafik.png
-
-Penjelasan Grafik
-Sumbu X : Generasi ke-1 hingga ke-50.
-
-Sumbu Y : Nilai fitness (total nilai barang yang terpilih).
-
-🔵 Garis Biru (Fitness Tertinggi) : Nilai individu terbaik tiap generasi. Cenderung meningkat dan akhirnya stabil.
-
-🟡 Garis Kuning (Fitness Terendah) : Nilai individu terburuk. Semakin ke kanan, garis ini naik karena populasi membaik.
-
-🔴 Garis Merah (Fitness Rata-rata) : Rata-rata fitness seluruh individu. Menunjukkan kesehatan populasi.
-
-⚫ Titik Abu-abu : Setiap titik adalah satu individu. Semakin gelap area, semakin banyak individu dengan nilai fitness serupa.
-
-Interpretasi
-Generasi awal (kiri): fitness rendah dan tersebar (algoritma masih eksplorasi).
-
-Generasi tengah: fitness tertinggi dan rata-rata naik drastis.
-
-Generasi akhir (kanan): ketiga garis mendatar → konvergensi. Algoritma menemukan solusi optimal atau mendekati optimal.
-
-2. Output Teks (Contoh)
-Setelah grafik ditutup, terminal akan menampilkan:
-
-text
-Nilai Fitness Terbaik: 329
-Total Bobot: 50
-Barang Terpilih:
-- Barang2
-- Barang5
-- Barang6
-- Barang8
-Penjelasan:
-
-Fitness terbaik = 329 adalah total nilai barang yang berhasil dimasukkan.
-
-Total bobot = 50 (sesuai kapasitas maksimal).
-
-Barang terpilih: Barang2 (100/20), Barang5 (69/11), Barang6 (70/9), Barang8 (90/10). Jumlah bobot = 20+11+9+10 = 50.
-
-📝 Catatan Penting
-Hasil setiap run dapat berbeda karena inisialisasi dan proses random. Ini sifat alami GA.
-
-Untuk mendapatkan hasil yang konsisten (reproducible), tambahkan random.seed(42) di awal main.py.
-
-Jika grafik fitness tertinggi belum stabil di akhir generasi, coba tingkatkan jumlah_generasi (misal 100).
-
-Pastikan semua file import memiliki nama yang sama persis (huruf besar/kecil) dengan file yang ada.
+===============================================================================
+Selesai. Selamat mencoba!
+===============================================================================
