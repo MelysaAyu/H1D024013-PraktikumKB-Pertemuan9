@@ -83,7 +83,7 @@ Eksekusi:
 ===============================================================================
 a. Grafik Perkembangan Fitness
 
-  [Gambar: image.png]
+  [Gambar: grafik.png]
 
   Penjelasan Grafik:
     - Sumbu X = Generasi (1-50)
